@@ -1,16 +1,22 @@
 {
   "Employees": [
     {
-      "Id": 1,
-      "Name": "Ganesh Pingale",
-      "MobileNumber": "9033536620"
+      "id": 1,
+      "name": "Ganesh Pingale",
+      "mobile": 9033536678,
+      "gender":"male",
+      "dob":"17/06/1995",
+      "isActive":true,
+      "role":"User"
     },
     {
-      "Id": 2,
-      "Name": "Rahul Patel",
-      "MobileNumber": "9033447810"
+      "id": 2,
+      "name": "Rahul patel",
+      "mobile": 779979565,
+      "gender":"male",
+      "dob":"17/06/1996",
+      "isActive":true,
+      "role":"User"
     }
   ]
- 
- 
 }

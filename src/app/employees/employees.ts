@@ -1,5 +1,10 @@
 export interface Employees {
-    Id: number;
-    Name: string;
-    MobileNumber: number; 
+    id:number,
+    name: string,
+    email: string,
+    mobile: string,
+    gender: string,
+    dob: Date,
+    isActive: boolean,
+    role?: string
 }

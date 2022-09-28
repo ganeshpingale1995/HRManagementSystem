@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Employees } from '../employees';
 import { EmployeesService } from '../employees.service';
-declare var window: any;
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -9,38 +8,62 @@ declare var window: any;
 })
 export class ListComponent implements OnInit {
 
-  allEmployees: Employees[]=[];
-  deleteModal: any;
-  idTodelete: number = 0;
+  //empList: Employees[]=[];
+  empList: any = [];
+  first = 0;
+  rows = 10;
   constructor(private employeeService: EmployeesService) { }
 
   ngOnInit(): void {
-
-    this.deleteModal = new window.bootstrap.Modal(
-      document.getElementById('deleteModal')
-    );
-
        this.get();
   }
 
   get() {
-    this.employeeService.get().subscribe((data) => {
-      this.allEmployees = data;
-    });
+
+    this.employeeService.GetList().subscribe(response => {
+      console.log(response);
+      this.empList = response;
+      
+    })
+    //this.allEmployees = this.employeeService.getEmployees();
   }
 
-  openDeleteModal(id: number) {
-    this.idTodelete = id;
-    this.deleteModal.show();
+
+  //****************PrimeNG DataTable Pagination method Start*********************** */
+  //***************Reference: https://primefaces.org/primeng/showcase/#/table/page********** */
+  next() {
+    this.first = this.first + this.rows;
   }
 
-  delete() {
-    this.employeeService.delete(this.idTodelete).subscribe({
-      next: (data) => {
-        this.allEmployees = this.allEmployees.filter(_ => _.Id != this.idTodelete)
-        this.deleteModal.hide();
-      },
-    });
+  prev() {
+    this.first = this.first - this.rows;
   }
+
+  reset() {
+    this.first = 0;
+  }
+
+  isLastPage(): boolean {
+    return this.empList ? this.first === (this.empList.length - this.rows) : true;
+  }
+
+  isFirstPage(): boolean {
+    return this.empList ? this.first === 0 : true;
+  }
+  //****************PrimeNG DataTable Pagination Method End*********************** */
+
+
+  remove(id: number) {
+    // this.employeeService.DeleteById(id);
+    this.employeeService.DeleteById(id).subscribe(response => {
+      // this.empList = response;
+      this.get();
+    })
+    // this.employeeService.GetList().subscribe(response => {
+    //   this.empList = response;
+    // })
+
+  }
+
 
 }

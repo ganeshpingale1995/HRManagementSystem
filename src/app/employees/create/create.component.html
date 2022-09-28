@@ -1,14 +1,87 @@
-<div class="container">
-    <legend>Create Item</legend>
-    <form>
-      <div class="mb-3">
-        <label for="txtName" class="form-label">Name</label>
-        <input type="text" name="name" [(ngModel)] = "employeeForm.Name" class="form-control" id="txtName" />
-      </div>
-      <div class="mb-3">
-        <label for="txtPrice" class="form-label">Mobile Number</label>
-        <input type="number" name="price" [(ngModel)] = "employeeForm.MobileNumber" class="form-control" id="txtMobileNumber" />
-      </div>
-      <button type="button" (click)="create()" class="btn btn-primary">Create</button>
+  <div class="container">
+    <form [formGroup]="employeeForm" autocomplete="off">
+        <div class="mb-1">
+            <label for="name" class="form-label">Name</label>
+            <div class="input-group has-validation">
+                <input type="text" #name [ngClass]="{'form-control': true, 'is-invalid': employeeForm.get('name')?.invalid &&
+                (employeeForm.get('name')?.dirty || employeeForm.get('name')?.touched)}" id="name" name="name"
+                    formControlName="name" placeholder="Name">
+                <div class="invalid-feedback">
+                    This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <label for="mobile" class="form-label">Mobile</label>
+            <div class="input-group has-validation">
+                <input type="text" maxlength="10" [ngClass]="{'form-control': true, 'is-invalid': employeeForm.get('mobile')?.invalid &&
+                (employeeForm.get('mobile')?.dirty || employeeForm.get('mobile')?.touched)}" id="mobile" name="mobile"
+                    formControlName="mobile" placeholder="Mobile">
+                <div class="invalid-feedback">
+                    This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <label for="email" class="form-label">Email</label>
+            <div class="input-group has-validation">
+                <input type="email" [ngClass]="{'form-control': true, 'is-invalid': employeeForm.get('email')?.invalid &&
+                    (employeeForm.get('email')?.dirty || employeeForm.get('email')?.touched)}" id="email" name="email"
+                    formControlName="email" placeholder="xyz@gmail.com">
+                <div class="invalid-feedback">
+                    {{employeeForm.get('email')?.hasError('required') ? 'This field is required.':'Invalid Email'}}
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <label for="DOB" class="form-label">DOB</label>
+            <p-calendar [showIcon]="true" inputId="icon" formControlName="dob" [ngClass]="{'form-control': true, 'is-invalid': employeeForm.get('dob')?.invalid &&
+            (employeeForm.get('dob')?.dirty || employeeForm.get('dob')?.touched)}"></p-calendar>
+        </div>  
+        <div class="mb-1">
+            <label for="email" class="form-label">Gender {{employeeForm.get('gender')?.value}} </label>
+            <div class="input-group has-validation">
+                <select [ngClass]="{'form-select': true, 'is-invalid': employeeForm.get('gender')?.invalid &&
+                    (employeeForm.get('gender')?.dirty || employeeForm.get('gender')?.touched)}"
+                    aria-label="Default select example" formControlName="gender">
+                    <option value=""> --Select--</option>
+                    <option value="Male" selected="employeeForm.get('gender')?.value=='Male'">Male</option>
+                    <option value="Female" selected="employeeForm.get('gender')?.value=='Female'">Female</option>
+                </select>
+                <div class="invalid-feedback">
+                    This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <label for="name" class="form-label">Role</label>
+            <div class="input-group has-validation">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" formControlName="role" type="radio" id="User" value="User">
+                    <label class="form-check-label" for="User">User</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" formControlName="role" type="radio" id="Admin" value="Admin">
+                    <label class="form-check-label" for="Admin">Admin</label>
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" formControlName="isActive" id="isActive">
+                <label class="form-check-label" for="isActive">Is Active</label>
+            </div>
+        </div>
+        <div class="mb-1">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button (click)="save()" [disabled]="employeeForm.invalid" class="btn btn-primary" type="button">
+                    {{id==0 || id==null ?'Save':'Update'}}</button>
+                <button class="btn btn-secondary" type="button">Reset </button>
+            </div>
+        </div>
+
+        <div class="mb-1">
+            {{employeeForm.value |json}}
+        </div>
     </form>
-  </div>
+</div>
