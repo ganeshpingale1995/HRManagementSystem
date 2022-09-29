@@ -42,14 +42,7 @@ export class CreateComponent implements OnInit {
       this.id = params['id'];
       if (params['id'] != null) {
         this.employeeForm.get('id')?.setValue(params['id']);
-        // const data = this.employeeService.getEmployeesByID(this.id);
-        // if (data) {
-        //   this.employeeForm.setValue(data);
-        // }
-
         this.employeeService.GetById(this.id).subscribe(response=>{
-          //this.employee = response;
-          console.log(response);
            this.employeeForm.setValue(response);
          })
       }
@@ -70,8 +63,6 @@ export class CreateComponent implements OnInit {
       }
       else 
      {
-       //this.employeeService.Update(this.employeeForm.value);
-       //debugger;
        this.employeeService.Update(this.employeeForm.value.id,this.employeeForm.value).subscribe(response=>{
         console.log(response); 
         this.router.navigate(['/employees/list']);
